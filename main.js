@@ -149,7 +149,7 @@ exports.displayVerse = (verse, text) => {
     let temp = text + " -" + verse
     console.log(temp)
 
-    request.post('http://localhost:9090').form({verse:verse, text: text})
+	request.get('http://localhost:9090?verse='+verse+ "&text="+text)
 }
 
 exports.openWindow = () => {

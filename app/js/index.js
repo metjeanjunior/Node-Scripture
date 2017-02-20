@@ -49,8 +49,6 @@ function processNoSecondary()
 	errDiv.textContent = "No Secondary Display Has Been Detected!"
 }
 
-// console.log(jsonContent)
-
 function displayVerse(debug=false)
 {
 	let book = document.getElementById('book').value;
@@ -61,14 +59,7 @@ function displayVerse(debug=false)
 	let verseID = bookId + ("000" + chapter).substr(-3) + ("000" + verse).substr(-3)
 	let verseName = book + " " + chapter + ": " + verse
 
-	let versObject = {book:book, chapter:chapter, verse:verse, text: jsonContent["bible"][verseID]}
-	request.post('http://localhost:9090').form({versObject})
-	// main.displayVerse(verseName, jsonContent["bible"][verseID])
-	if (debug)
-	{
-		let temp = jsonContent["bible"][verseID] + " -" + verseName + " " + verseID
-		alert(temp)
-	}
+	request.get('http://localhost:9090?verse='+verseName+ "&text="+jsonContent["bible"][verseID])
 }
 
 function populateDataList() {

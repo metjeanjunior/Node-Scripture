@@ -1,0 +1,32 @@
+html {
+  box-sizing: border-box;
+  height:100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+body {
+	text-align: center;
+  height:100%;
+  min-height:100%;
+  overflow:hidden;
+  font-size:25px;
+  line-height:1.25;
+  background: rgba(0, 43, 54, 1);
+  color:rgba(130, 150, 150,1);
+  padding:0;
+  margin:0;
+  -webkit-overflow-scrolling: touch;
+  -webkit-user-select:none;
+}
+
+.content {
+	font-size: 30px;
+	font-size: 3.5vw;
+	vertical-align: middle;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%) }
+}
