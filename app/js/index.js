@@ -1,6 +1,7 @@
 const remote = require('electron').remote
 const electronScreen = remote.electronScreen;
 const main = remote.require('./main.js')
+const request = require('request');
 require('./awesomplete.min.js')
 
 // JSON Stuff
@@ -50,7 +51,7 @@ function processNoSecondary()
 
 // console.log(jsonContent)
 
-function displayVerse()
+function displayVerse(debug=false)
 {
 	let book = document.getElementById('book').value;
 	let chapter = document.getElementById('chapter').value;
@@ -59,9 +60,15 @@ function displayVerse()
 	let bookId = bookMap.bookMap[book]
 	let verseID = bookId + ("000" + chapter).substr(-3) + ("000" + verse).substr(-3)
 	let verseName = book + " " + chapter + ": " + verse
-	let temp = jsonContent["bible"][verseID] + " -" + verseName + " " + verseID
-	alert(temp)
-	// main.displayVerse(verseName, jsonContent[bible][verseID])
+
+	let versObject = {book:book, chapter:chapter, verse:verse, text: jsonContent["bible"][verseID]}
+	request.post('http://localhost:9090').form({versObject})
+	// main.displayVerse(verseName, jsonContent["bible"][verseID])
+	if (debug)
+	{
+		let temp = jsonContent["bible"][verseID] + " -" + verseName + " " + verseID
+		alert(temp)
+	}
 }
 
 function populateDataList() {

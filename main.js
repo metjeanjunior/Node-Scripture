@@ -1,6 +1,7 @@
 const {app, BrowserWindow, Menu, webContents} = require('electron')
 const path = require('path')
 const url = require('url')
+const request = require('request');
 const Config = require('electron-config')
 const config = new Config()
 
@@ -65,6 +66,7 @@ function createSecondary(debug=true)
             //   icon: ,
             autoHideMenuBar : true
         });
+        secondWin.loadURL(`file://${__dirname}/app/second-display.html`)
         return
     }
 
@@ -142,19 +144,12 @@ app.on('window-all-closed', () => {
 	app.quit()
 })
 
-function displayVerse(verse, text)
-{
-    let options = {verse: verse, text: text}
-    // secondWin.loadURL(`file://${__dirname}/app/index.html`, options)
+exports.displayVerse = (verse, text) => {
 
-    secondWin.loadURL(`file://${__dirname}/app/second-display.html`, {
-        postData: [{
-            type: 'rawData',
-            verse: verse,
-            text : text
-        }],
-        extraHeaders: 'Content-Type: application/x-www-form-urlencoded'
-    })
+    let temp = text + " -" + verse
+    console.log(temp)
+
+    request.post('http://localhost:9090').form({verse:verse, text: text})
 }
 
 exports.openWindow = () => {
