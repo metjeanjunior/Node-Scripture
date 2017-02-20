@@ -1,4 +1,4 @@
-const {app, BrowserWindow, Menu} = require('electron')
+const {app, BrowserWindow, Menu, webContents} = require('electron')
 const path = require('path')
 const url = require('url')
 const Config = require('electron-config')
@@ -50,11 +50,24 @@ function createWindow () {
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
     win = null
+    app.quit();
   })
 }
 
-function createSecondary()
+function createSecondary(debug=true)
 {
+    if (debug)
+    {
+        secondWin = new BrowserWindow({
+            backgroundColor: '#002b36',
+            fullscreen : true,
+            fullscreenable: false,
+            //   icon: ,
+            autoHideMenuBar : true
+        });
+        return
+    }
+
     var displays = electronScreen.getAllDisplays();
     var externalDisplay = null;
     for (var i in displays) {
@@ -66,8 +79,12 @@ function createSecondary()
 
     if (externalDisplay) {
         secondWin = new BrowserWindow({
-          x: externalDisplay.bounds.x + 50,
-          y: externalDisplay.bounds.y + 50
+            x: externalDisplay.bounds.x + 50,
+            y: externalDisplay.bounds.y + 50.,
+            fullscreen : true,
+            fullscreenable: false,
+            //   icon: ,
+            autoHideMenuBar : true
         });
     }
 }
@@ -86,7 +103,7 @@ app.on('ready', () => {
     electronScreen = require('electron').screen;
 	createWindow()
     createSecondary()
-    setupListeners()
+    // setupListeners()
 
 	let template = [{
 	    label: app.getName(),
@@ -125,6 +142,20 @@ app.on('window-all-closed', () => {
 	app.quit()
 })
 
+function displayVerse(verse, text)
+{
+    let options = {verse: verse, text: text}
+    // secondWin.loadURL(`file://${__dirname}/app/index.html`, options)
+
+    secondWin.loadURL(`file://${__dirname}/app/second-display.html`, {
+        postData: [{
+            type: 'rawData',
+            verse: verse,
+            text : text
+        }],
+        extraHeaders: 'Content-Type: application/x-www-form-urlencoded'
+    })
+}
 
 exports.openWindow = () => {
     let win = new BrowserWindow(windowSettings)

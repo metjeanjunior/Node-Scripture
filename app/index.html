@@ -4,6 +4,7 @@
 	    <meta charset="UTF-8">
 	    <title>Hello World!</title>
         <link rel="stylesheet" href="css/index2.css">
+        <link rel="stylesheet" href="css/awesomplete.css">
 	</head>
 	<body onload="showLoader()" style="margin:0;">
         <script type='text/javascript'>
@@ -23,12 +24,16 @@
             <h1>Display The Scripture on the Secondary Display</h1>
 
             <div id="verse-info-input">
-                <input type="text" placeholder="Book Name">
-                <input type="number" placeholder="Chapter">
-                <input type="number" placeholder="Verses">
+                <input list="book-list" type="text" placeholder="Book Name" id="book" />
+                <datalist id="book-list"></datalist>
+
+                <input type="number" placeholder="Chapter" id="chapter">
+                <input type="number" placeholder="Verses" id="verse">
             </div>
             <div id="errDiv"></div>
         </div>
+
         <script>require('./js/index.js')</script>
+        <script>require('./js/awesomplete.min.js')</script>
 	</body>
 </html>

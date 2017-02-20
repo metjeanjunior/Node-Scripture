@@ -1,0 +1,2 @@
+let verse =
+let text = ''
